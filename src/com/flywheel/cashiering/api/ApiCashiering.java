@@ -8,7 +8,7 @@ import javax.jws.soap.SOAPBinding.Style;
 //Service Endpoint Interface
 @WebService
 @SOAPBinding(style = Style.RPC)
-public interface HelloWorld{
+public interface ApiCashiering{
 
 	@WebMethod String getHelloWorldAsString(String name);
 

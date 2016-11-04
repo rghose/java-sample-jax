@@ -5,4 +5,4 @@ build:
 	mkdir -p WEB-INF/classes/
 	javac -d WEB-INF/classes/ src/com/flywheel/cashiering/api/*.java
 war:
-	jar cvf HelloWorld.war WEB-INF/
+	jar cvf ApiCashiering.war WEB-INF/

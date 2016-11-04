@@ -3,7 +3,7 @@
   xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime"
   version="2.0">
   <endpoint
-      name="HelloWorld"
-      implementation="com.flywheel.cashiering.api.HelloWorldImpl"
-      url-pattern="/hello"/>
+      name="ApiCashiering"
+      implementation="com.flywheel.cashiering.api.ApiCashieringImpl"
+      url-pattern="/trips"/>
 </endpoints>
