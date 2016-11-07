@@ -10,6 +10,6 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 public interface ApiCashiering{
 
-	@WebMethod String getHelloWorldAsString(String name);
+	@WebMethod String getFlywheelTrips(String name);
 
 }

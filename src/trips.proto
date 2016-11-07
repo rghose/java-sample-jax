@@ -1,0 +1,64 @@
+syntax = "proto3";
+package trip_message;
+
+option java_package = "com.flywheel.trips";
+option java_outer_classname = "TripsProto";
+
+message TripsResponse {
+	repeated Trip trips = 1; //xml:"GET_FLYWHEEL_TRIPSResult,omitempty"
+	string count = 2;        //xml:"count,attr"
+}
+
+message Trip {
+	string id = 1;                   //xml:"ID"
+	string medallion = 2;            //xml:"CAB"
+	string hack_number = 3;          //xml:"HACK"
+	string driver_id = 4;            //xml:"DRIVER"
+	int64 start_date = 5;            //xml:"START_DATE"
+	int64 end_date = 6;              //xml:"END_DATE"
+	string version = 7;              //xml:"VERSION"
+	int64 base_fare = 8;             //xml:"BASE"
+	int64 tip = 9;                   //xml:"TIP"
+	int64 extras = 10;               //xml:"EXTRAS"
+	int64 tolls = 11;                //xml:"TOLLS"
+	int64 tax = 12;                  //xml:"TAX"
+	int64 imptax = 13;               //xml:"IMPTAX"
+	int64 total = 14;                //xml:"TOTAL_AMOUNT"
+	string t = 15;                   //xml:"T"
+	string cc_number = 16;           //xml:"CCNUMBER"
+	string trip_start_latitude = 17; //xml:"START_LAT"
+	string trip_start_longitude = 18;//xml:"START_LNG"
+	string trip_end_latitude = 19;   //xml:"END_LAT"
+	string trip_end_longitude = 20;  //xml:"END_LNG"
+	string pickup_address = 21;      //xml:"FROM_ADDRESS"
+	string dropoff_address = 22;     //xml:"TO_ADDRESS"
+	int64 cc_fee = 23;               //xml:"CCFEE"
+	int64 ehail_fee = 24;            //xml:"EHAILFEE"
+}
+
+message TripRequest {
+	string user_id = 1;     //xml:"USERID"
+	string password = 2;    //xml:"PASSWORD"
+	string driver_id = 3;   //xml:"DRIVER"
+	string hack_number = 4; //xml:"HACK"
+	string medallion = 5;   //xml:"CAB"
+	int64 start_date = 6;   //xml:"DATE_FROM"
+	int64 end_date = 7;     //xml:"DATE_TO"
+	int64 fleet_id = 8;     //xml:"FLEETID"
+	string sync_all = 9;    //xml:"SYNC_ALL"
+}
+
+message TripAckRequest {
+	string user_id = 1;  //xml:"USERID"
+	string password = 2; //xml:"PASSWORD"
+	TripAcks acks = 3;     //xml:"TRIPS_ACK"
+}
+
+message TripAcks {
+	repeated TripAck trip_acks = 1; //xml:"TRIP"
+}
+
+message TripAck {
+	string id = 1;      //xml:",chardata"
+	string version = 2; //xml:"VERSION,attr"
+}
