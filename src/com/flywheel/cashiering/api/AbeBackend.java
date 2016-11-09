@@ -1,14 +1,25 @@
 package com.flywheel.cashiering.api;
 
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.logging.Logger;
 
 import com.flywheel.trips.TripsProto.TripRequest;
 import com.flywheel.trips.TripsProto.TripsResponse;
 
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.protobuf.ProtoConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+
 public class AbeBackend {
+
+	public interface AbeBackendService {
+		@Headers({"Accept: application/x-protobuf", "Content-Type: application/x-protobuf"})
+		@POST("/trips/proto")
+		Call<TripsResponse> getTrips(@Body TripRequest trip_request);
+	}
+
 	private static final Logger LOGGER = Logger.getLogger( "InfoLogging" );
 	
 	private String backendUrl;
@@ -17,42 +28,25 @@ public class AbeBackend {
 		this.backendUrl = url;
 	}
 
-	@SuppressWarnings("unused")
 	public void getTripsFromAbe() throws Exception {
-		String url = backendUrl;
 
-		URL obj = new URL(url);
-		LOGGER.info(obj.toString());
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
-		// optional default is GET
-		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-Type", "application/x-protobuf");
-
-		con.setDoOutput(true);
 		TripRequest.Builder request = TripRequest.newBuilder();
-		request.setUserId("rahul@flywheel.com");
-		request.setPassword("passw0rd");
+		request.setUserId("aritra@flywheel.com");
+		request.setPassword("aritra");
 		request.setFleetId(1);
 		long startTimestamp = (System.currentTimeMillis() / 1000L) - 28*24*60*60;
 		long endTimestamp = System.currentTimeMillis() / 1000L;
 		request.setStartDate(startTimestamp);
 		request.setEndDate(endTimestamp);
 
-		OutputStream output = con.getOutputStream();
-		request.build().writeTo(output);
-		output.close();
-		con.connect();
+		Retrofit retrofit = new Retrofit.Builder()
+				.baseUrl(backendUrl)
+				.addConverterFactory(ProtoConverterFactory.create())
+				.build();
+		AbeBackendService a = retrofit.create(AbeBackendService.class);
+		Call<TripsResponse> t = a.getTrips(request.build());
+		TripsResponse trips = t.execute().body();
 
-		int responseCode = con.getResponseCode();
-		String msg = con.getResponseMessage();
-		
-		LOGGER.info("\nSending 'POST' request to URL : " + url);
-		LOGGER.info("Response Code : " + responseCode + "\n" + msg);
-
-		TripsResponse trips = TripsResponse.parseFrom(con.getInputStream());
-
-		//print result
 		LOGGER.info("Total number of trips: " + trips.getCount());
 	}
 }

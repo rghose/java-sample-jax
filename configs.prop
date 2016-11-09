@@ -1,1 +1,1 @@
-url_get_trips=http://localhost:8092/trips/proto
+url_get_trips=http://localhost:8092/
